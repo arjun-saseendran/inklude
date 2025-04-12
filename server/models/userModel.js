@@ -10,12 +10,7 @@ const userSchema = new Schema(
       miniLength: 3,
       maxLength: 30,
     },
-    email: {
-      type: String,
-      required: true,
-      lowercase: true,
-      unique: true,
-    },
+
     mobile: {
       type: String,
       required: true,

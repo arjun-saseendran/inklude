@@ -4,18 +4,14 @@ import { validateSignUpData } from "../utils/userValidator.js";
 
 export const signup = async (req, res) => {
   try {
-    // Validation of data
     validateSignUpData(req, res);
 
-    const { name, email, mobile, password } = req.body;
+    const { name, mobile, password } = req.body;
 
-    // Encrypt the password
     const passwordHash = await bcrypt.hash(password, 10);
 
-    //  Creating a new instance of the User model
     const user = new User({
       name,
-      email,
       mobile,
       password: passwordHash,
     });
@@ -35,12 +31,12 @@ export const signup = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    if (!email || !password) {
+    const { mobile, password } = req.body;
+    if (!mobile || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ mobile });
     if (!user) {
       return res.status(404).json({ message: "User not exist" });
     }
@@ -52,10 +48,9 @@ export const login = async (req, res) => {
       res.cookie("token", token, {
         expires: new Date(Date.now() + 8 * 3600000),
       });
-      // Exclude password
+
       const { password: _, ...userWithoutPassword } = user.toObject();
 
-      // Send response to frontend
       res
         .status(200)
         .json({ message: "Login successful", data: userWithoutPassword });
