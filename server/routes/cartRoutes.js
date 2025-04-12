@@ -6,8 +6,8 @@ import {
 } from "../controllers/cartControllers.js";
 import { userAuth } from "../middlewares/userAuth.js";
 
-export const userRouter = Router();
+export const cartRouter = Router();
 
-userRouter.post("/add/product", userAuth, addToCart);
-userRouter.post("/remove/product", userAuth, removeFromCart);
-userRouter.post("/cart", userAuth, getCart);
+cartRouter.post("/add/product", userAuth, addToCart);
+cartRouter.post("/remove/product", userAuth, removeFromCart);
+cartRouter.post("/cart", userAuth, getCart);
