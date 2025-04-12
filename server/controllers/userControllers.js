@@ -29,6 +29,47 @@ export const signup = async (req, res) => {
 
     res.json({ message: "User registered  successfully!", data: savedUser });
   } catch (error) {
-    res.status(400).json({ message: error.message || "Something went wrong!" });
+    res.status(500).json({ message: error.message || "Something went wrong!" });
   }
+};
+
+export const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not exist" });
+    }
+    const isPasswordValid = await user.validatePassword(password);
+
+    if (isPasswordValid) {
+      const token = await user.getJWT();
+
+      res.cookie("token", token, {
+        expires: new Date(Date.now() + 8 * 3600000),
+      });
+      // Exclude password
+      const { password: _, ...userWithoutPassword } = user.toObject();
+
+      // Send response to frontend
+      res
+        .status(200)
+        .json({ message: "Login successful", data: userWithoutPassword });
+    } else {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message || "Something went wrong!" });
+  }
+};
+
+export const logout = async (_, res) => {
+  res.cookie("token", null, {
+    expires: new Date(Date.now()),
+  });
+  res.status(200).json({ message: "Logout successful!" });
 };
