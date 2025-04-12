@@ -45,4 +45,4 @@ userSchema.methods.validatePassword = async function (inputPassword) {
   return isPasswordValid;
 };
 
-const User = model("User", userSchema);
+export const User = model("User", userSchema);
