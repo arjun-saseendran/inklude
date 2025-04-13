@@ -42,7 +42,10 @@ export const login = async (req, res) => {
       const token = await user.getJWT();
 
       res.cookie("token", token, {
-        expires: new Date(Date.now() + 8 * 3600000),
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production", 
+        sameSite: "None",                              
+        expires: new Date(Date.now() + 8 * 3600000),   
       });
 
       const { password: _, ...userWithoutPassword } = user.toObject();

@@ -45,7 +45,7 @@ export const Login = () => {
       fetchCart();
       navigate("/");
     } catch (error) {
-      toast.error(error.response.data.message || "Somethig went wrong!");
+      toast.error(error.response.data.message || "Something went wrong!");
       setError(error.response.data.message)
     }
   };

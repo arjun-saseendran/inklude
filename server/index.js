@@ -13,6 +13,9 @@ app.use(
     credentials: true
   })
 );
+
+console.log(process.env.CORS);
+
 dotenv.config();
 const PORT = process.env.PORT;
 
