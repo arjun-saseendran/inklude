@@ -9,17 +9,15 @@ import { connectDB } from "./config/db.js";
 const app = express();
 app.use(
   cors({
-    origin: [process.env.CORS,"http://localhost:5173"],
-    credentials: true
+    origin: [process.env.CORS, "http://localhost:5173"],
+    credentials: true,
   })
 );
-
-console.log(process.env.CORS);
 
 dotenv.config();
 const PORT = process.env.PORT;
 
-app.use(express.json({ type: ['application/json', 'text/plain'] }));
+app.use(express.json({ type: ["application/json", "text/plain"] }));
 app.use(cookieParser());
 app.use("/", userRouter);
 app.use("/", cartRouter);
