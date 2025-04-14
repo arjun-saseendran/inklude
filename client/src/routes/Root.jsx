@@ -1,23 +1,39 @@
+import axios from "axios";
 import { Header } from "../components/Header/Header";
 import { Outlet } from "react-router-dom";
 import { Footer } from "../components/Footer/Footer";
-import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import { saveUserData } from "../features/user/userSlice";
 
 export const Root = () => {
-  useAuth();
-
-  const { user, loading } = useSelector((state) => state.user);
+  const user = useSelector((store) => store.user);
   const { cart } = useSelector((state) => state.cart);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const fetchUser = async () => {
+    if (user) return;
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/check/user`,
+        {
+          withCredentials: true,
+        }
+      );
+      dispatch(saveUserData(response.data.data));
+    } catch (error) {
+      if (error.status === 401) {
+        navigate("/login");
+      }
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-    if (!user && !loading) {
-      navigate("/login");
-    }
-  }, [user, loading, navigate]);
+    fetchUser();
+  }, []);
 
   useEffect(() => {
     const handleUnload = () => {

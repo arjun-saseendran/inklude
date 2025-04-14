@@ -1,15 +1,19 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { cartProducts } from "../../features/cart/cartSlice";
 
 export const ProductCard = ({ image, title, description, price, id }) => {
+  const dispatch = useDispatch();
   const addToCart = async () => {
     try {
-      await axios.post(
+      const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/add/product`,
         { product: { id, image, title, price } },
-        { withCredentials: true },
+        { withCredentials: true }
       );
+      dispatch(cartProducts(response?.data?.data));
       toast.success("Product added to cart!");
     } catch (error) {
       console.error("Add to cart failed:", error);

@@ -3,7 +3,6 @@ import { ProductCard } from "../components/ProductCard/ProductCard";
 
 export const Home = () => {
   const { products } = useSelector((state) => state.products);
-  const {user} = useSelector(state => state.user)
 
   return (
    

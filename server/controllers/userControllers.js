@@ -67,9 +67,9 @@ export const logout = async (req, res) => {
 
 export const checkUser = async (req, res) => {
   try {
-    const { _id } = req.user;
+    const userId = req.user._id;
 
-    const user = await User.findOne({ _id });
+    const user = await User.findById(userId);
 
     res.status(200).json({ message: "Authorized user", data: user });
   } catch (error) {

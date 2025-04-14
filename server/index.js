@@ -7,15 +7,15 @@ import { cartRouter } from "./routes/cartRoutes.js";
 import { connectDB } from "./config/db.js";
 
 const app = express();
+dotenv.config();
+const PORT = process.env.PORT;
+
 app.use(
   cors({
     origin: [process.env.CORS, "http://localhost:5173"],
     credentials: true,
   })
 );
-
-dotenv.config();
-const PORT = process.env.PORT;
 
 app.use(express.json({ type: ["application/json", "text/plain"] }));
 app.use(cookieParser());
