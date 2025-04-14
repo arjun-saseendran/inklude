@@ -7,40 +7,40 @@ import { saveProducts } from "../../features/products/productSlice";
 import { saveUserData, removeUserData } from "../../features/user/userSlice";
 import { IoCartOutline } from "react-icons/io5";
 import { cartProducts } from "../../features/cart/cartSlice";
-import logo from '../../assets/favicon.ico'
+import logo from "../../assets/favicon.ico";
 
 export const Header = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { cart } = useSelector((state) => state.cart);
- 
-  
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     const fetchCart = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/cart`, {
-          withCredentials: true,
-        });
-       
-        dispatch(cartProducts(response?.data?.data))
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/cart`,
+          {
+            withCredentials: true,
+          }
+        );
+
+        dispatch(cartProducts(response?.data?.data));
       } catch (error) {
         console.log(error);
       }
-    }
-    fetchCart()
-  },[cart])
+    };
+    fetchCart();
+  }, [cart]);
 
   useEffect(() => {
     try {
       const fetchProducts = async () => {
         const response = await axios.get(
-          "https://store-ecommerce-web-application-server.vercel.app/api/v1/product/products",
+          "https://store-ecommerce-web-application-server.vercel.app/api/v1/product/products"
         );
-      dispatch(saveProducts(response?.data?.data));
+        dispatch(saveProducts(response?.data?.data));
       };
       fetchProducts();
-     
     } catch (error) {
       console.log(error);
     }
@@ -48,14 +48,13 @@ export const Header = () => {
 
   const logoutHandler = async () => {
     try {
-       await axios.post(
+      await axios.post(
         `${import.meta.env.VITE_API_URL}/logout`,
         {},
-        { withCredentials: true },
+        { withCredentials: true }
       );
-      
+
       dispatch(removeUserData());
-      
     } catch (error) {
       console.log(error);
     }
@@ -68,12 +67,11 @@ export const Header = () => {
         <div className="flex justify-between w-full md:w-1/2">
           <div className="text-xl">
             <span className="flex items-center md:gap-6">
-              <Link to={'/'}>
-              <img className="me-4 rounded" src={logo} alt="logo" />
+              <Link to={"/"}>
+                <img className="me-4 rounded" src={logo} alt="logo" />
               </Link>
-      
-            <span>Hello, {user?.name}</span>
-          
+
+              <span>Hello, {user?.name}</span>
             </span>
           </div>
 
