@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { saveProducts } from "../../features/products/productSlice";
-import { saveUserData } from "../../features/user/userSlice";
+import { saveUserData, removeUserData } from "../../features/user/userSlice";
 import { IoCartOutline } from "react-icons/io5";
 import { cartProducts } from "../../features/cart/cartSlice";
 import logo from '../../assets/favicon.ico'
@@ -54,7 +54,7 @@ export const Header = () => {
         { withCredentials: true },
       );
       
-      dispatch(saveUserData(null));
+      dispatch(removeUserData());
       
     } catch (error) {
       console.log(error);

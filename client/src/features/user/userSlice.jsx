@@ -13,9 +13,13 @@ export const userSlice = createSlice({
       state.user = action.payload;
       state.loading = false
     },
+    removeUserData: (state, _) =>{
+      state.user = null;
+      state.loading = true;
+    }
   },
 });
 
-export const { saveUserData } = userSlice.actions;
+export const { saveUserData, removeUserData } = userSlice.actions;
 
 export default userSlice.reducer;
